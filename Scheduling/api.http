@@ -5,7 +5,7 @@ X-CorrelationId: 8ea3fb2b-5acf-4805-bf2c-a56647cc7728
 X-CausationId: e07da067-7559-4876-a98a-d95bbeef897c
 
 {
-  "date": "2020-08-01",
+  "date": "2022-09-08",
   "doctorId": "7e25fa3c-6123-46bf-9325-9611a88f2696",
   "slots": [
     {
@@ -24,10 +24,10 @@ X-CausationId: e07da067-7559-4876-a98a-d95bbeef897c
 }
 
 ### Get slots available on a date
-GET https://localhost:5001/api/slots/2020-08-01/available
+GET https://localhost:5001/api/slots/2022-09-08/available
 
 ### Book a slot
-POST https://localhost:5001/api/slots/7e25fa3c-6123-46bf-9325-9611a88f2696_2020-08-01/book
+POST https://localhost:5001/api/slots/7e25fa3c-6123-46bf-9325-9611a88f2696_2022-09-08/book
 Content-Type: application/json
 X-CorrelationId: 8ea3fb2b-5acf-4805-bf2c-a56647cc7728
 X-CausationId: e07da067-7559-4876-a98a-d95bbeef897c
@@ -38,7 +38,7 @@ X-CausationId: e07da067-7559-4876-a98a-d95bbeef897c
 }
 
 ### Cancel slot booking
-POST https://localhost:5001/api/slots/7e25fa3c-6123-46bf-9325-9611a88f2696_2020-08-01/cancel-booking
+POST https://localhost:5001/api/slots/7e25fa3c-6123-46bf-9325-9611a88f2696_2022-09-08/cancel-booking
 Content-Type: application/json
 X-CorrelationId: 8ea3fb2b-5acf-4805-bf2c-a56647cc7728
 X-CausationId: e07da067-7559-4876-a98a-d95bbeef897c
