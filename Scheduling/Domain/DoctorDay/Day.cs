@@ -21,6 +21,7 @@ public class Day : AggregateRootSnapshot
         public Day()
         {
             Register<DayScheduled>(When);
+            Register<DayScheduleCancelled>(When);
             Register<SlotScheduled>(When);
             Register<SlotBooked>(When);
             Register<SlotBookingCancelled>(When);
@@ -28,6 +29,8 @@ public class Day : AggregateRootSnapshot
             Register<DayScheduleArchived>(When);
             RegisterSnapshot<DaySnapshot>(LoadDaySnapshot, GetDaySnapshot);
         }
+
+        
 
         public void Schedule(DoctorId doctorId, DateTime date, List<ScheduledSlot> slots, Func<Guid> idGenerator)
         {
@@ -98,7 +101,9 @@ public class Day : AggregateRootSnapshot
 
         public void Cancel()
         {
-
+            new List<Slot>(_slots.GetBookedSlots()).ForEach(x => Raise(new SlotBookingCancelled(Id, x.Id, null)));
+            new List<Slot>(_slots.All()).ForEach(x => Raise(new SlotScheduleCancelled(Id, x.Id)));
+            Raise(new DayScheduleCancelled(Id));
         }
 
         private void When(DayScheduled @event)
@@ -106,6 +111,7 @@ public class Day : AggregateRootSnapshot
             Id = new DayId(new DoctorId(@event.DoctorId), @event.Date).Value;
             _isScheduled = true;
         }
+        
 
         private void When(SlotScheduled @event) =>
             _slots.Add(@event.SlotId, @event.SlotStartTime, @event.SlotDuration, false);
@@ -121,6 +127,9 @@ public class Day : AggregateRootSnapshot
 
         private void When(DayScheduleArchived @event) =>
             _isArchived = true;
+
+        private void When(DayScheduleCancelled @event) =>
+            new List<Slot>(_slots.All()).ForEach(x => _slots.Remove(x.Id));
 
         private void IsCancelledOrArchived()
         {

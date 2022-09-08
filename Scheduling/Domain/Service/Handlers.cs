@@ -47,5 +47,12 @@ public class Handlers : CommandHandler
                 day.Archive();
                 await _repository.Save(day, m);
             });
+            
+            Register<CancelDaySchedule>(async (c, m) =>
+            {
+                var day = await _repository.Get(new DayId(c.DayId));
+                day.Cancel();
+                await _repository.Save(day, m);
+            });
         }
 }
