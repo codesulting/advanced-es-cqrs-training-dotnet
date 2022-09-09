@@ -8,11 +8,13 @@ namespace Scheduling.Infrastructure.Projections;
 
 public class EventHandler
 {
+    private ulong? lastProcessedEventPosition;
+
     readonly List<EventHandlerEnvelope> _handlers = new();
 
     protected void When<T>(Func<T, EventMetadata, Task> when)
     {
-        _handlers.Add(new EventHandlerEnvelope(typeof(T), async (e, m) => await when((T)e, m)));
+        _handlers.Add(new EventHandlerEnvelope(typeof(T), (e, m) => when((T)e, m)));
     }
 
     public async Task Handle(Type eventType, object e, EventMetadata m)
@@ -23,8 +25,19 @@ public class EventHandler
 
         foreach (var handler in handlers)
         {
-            await handler.Handler(e, m);
+            await CheckIdempotency(m.Position, () => handler.Handler(e, m));
         }
+    }
+
+    private Task CheckIdempotency(ulong? position, Func<Task> repoTask)
+    {
+        if (lastProcessedEventPosition == null || position.GetValueOrDefault() - 1 == lastProcessedEventPosition)
+        {
+            lastProcessedEventPosition = position;
+            return repoTask();
+        }
+
+        return Task.CompletedTask;
     }
 
     public bool CanHandle(Type eventType)
@@ -32,8 +45,6 @@ public class EventHandler
         return _handlers.Any(h => h.EventType == eventType);
     }
 
-    public record EventHandlerEnvelope(
-        Type EventType,
-        Func<object, EventMetadata, Task> Handler
-    );
+    public record EventHandlerEnvelope(Type EventType,
+        Func<object, EventMetadata, Task> Handler);
 }
