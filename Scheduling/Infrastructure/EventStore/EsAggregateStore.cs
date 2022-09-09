@@ -50,7 +50,7 @@ public class EsAggregateStore : IAggregateStore
 
         aggregate.Id = aggregateId;
 
-        int? version = null;
+        int? version = -1;
 
         // Load snapshot
         if (aggregate is AggregateRootSnapshot snapshotAggregate)
@@ -68,11 +68,20 @@ public class EsAggregateStore : IAggregateStore
 
     private async Task<int?> LoadSnapshot(string streamName, AggregateRootSnapshot snapshotAggregate)
     {
+        var snapshotEnvelope = await _store.LoadSnapshot(streamName);
+
+
+        if (snapshotEnvelope != null)
+        {
+            snapshotAggregate.LoadSnapshot(snapshotEnvelope.Snapshot, snapshotEnvelope.Metadata.Version);
+            return snapshotEnvelope.Metadata.Version + 1;
+        }
+
         // Load snapshot from the _store
         // If there is one then load it into the aggregate
         // Return next expected version
         // If no snapshot return null
-        return null;
+        return -1;
     }
 
     static string GetStreamName<T>(string aggregateId)

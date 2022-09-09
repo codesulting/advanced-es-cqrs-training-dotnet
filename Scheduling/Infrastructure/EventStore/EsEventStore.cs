@@ -24,7 +24,7 @@ public class EsEventStore : IEventStore
         var preparedCommand = command.SerializeCommand(metadata);
 
         return _client.AppendToStreamAsync(_tenantPrefix + streamId, StreamState.Any,
-            new List<EventData> {preparedCommand});
+            new List<EventData> { preparedCommand });
     }
 
     public Task AppendEvents(string streamName, long version, CommandMetadata metadata, params object[] events)
@@ -103,10 +103,10 @@ public class EsEventStore : IEventStore
 
     public Task AppendSnapshot(string streamName, int aggregateVersion, object snapshot)
     {
-        // Serialize the snapshot (extension method)
-        // Get snapshot stream name
-        // Append snapshot to stream
-        return Task.CompletedTask;
+        var snapshotEvent = snapshot.SerializeSnapshot(new SnapshotMetadata(aggregateVersion));
+
+        return _client.AppendToStreamAsync(GetSnapshotStreamName(streamName), StreamState.Any,
+            new List<EventData> {snapshotEvent});
     }
 
     private string GetSnapshotStreamName(string streamName)
