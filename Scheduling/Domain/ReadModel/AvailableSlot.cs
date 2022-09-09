@@ -6,8 +6,8 @@ namespace Scheduling.Domain.ReadModel;
 public record AvailableSlot(
     string Id,
     string DayId,
-    DateTime Date,
-    DateTime StartTime,
+    string Date,
+    string StartTime,
     TimeSpan Duration,
     bool IsBooked
 ): IDocument;

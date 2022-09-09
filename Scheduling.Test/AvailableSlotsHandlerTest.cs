@@ -36,8 +36,8 @@ public class AvailableSlotsHandlerTest : HandlerTest
             new AvailableSlot(
                 scheduled.SlotId.ToString(),
                 scheduled.DayId,
-                scheduled.SlotStartTime.Date,
-                scheduled.SlotStartTime,
+                scheduled.SlotStartTime.Date.ToString("dd-MM-yyyy"),
+                scheduled.SlotStartTime.ToString("h:mm tt"),
                 scheduled.SlotDuration,
                 false
             )
@@ -67,8 +67,8 @@ public class AvailableSlotsHandlerTest : HandlerTest
             new AvailableSlot(
                 scheduled.SlotId.ToString(),
                 scheduled.DayId,
-                scheduled.SlotStartTime.Date,
-                scheduled.SlotStartTime,
+                scheduled.SlotStartTime.Date.ToString("dd-MM-yyyy"),
+                scheduled.SlotStartTime.ToString("h:mm tt"),
                 scheduled.SlotDuration,
                 false
             )

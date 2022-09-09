@@ -35,7 +35,7 @@ public class ApiController : ControllerBase
     {
         var availableSlots = await _availableSlotsRepository.GetAvailableSlotsOn(new DateTime(2020, 8, 1));
         return availableSlots
-            .Select(a => new AvailableSlotsResponse(a.DayId, a.Id, a.Date.ToString("M-d-yyy"), a.StartTime.ToString(@"h\:mm tt"), a.Duration))
+            .Select(a => new AvailableSlotsResponse(a.DayId, a.Id, a.Date, a.StartTime, a.Duration))
             .ToList();
     }
 
@@ -45,7 +45,7 @@ public class ApiController : ControllerBase
     {
         var availableSlots = await _availableSlotsRepository.GetAvailableSlotsOn(DateTime.Parse(date));
         return availableSlots
-            .Select(a => new AvailableSlotsResponse(a.DayId, a.Id, a.Date.ToString("M-d-yyy"), a.StartTime.ToString(@"h\:mm tt"), a.Duration))
+            .Select(a => new AvailableSlotsResponse(a.DayId, a.Id, a.Date, a.StartTime, a.Duration))
             .ToList();;
     }
 

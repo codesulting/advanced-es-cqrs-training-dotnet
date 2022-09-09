@@ -12,8 +12,8 @@ public class AvailableSlotsProjectionV2 : EventHandler
             availableSlotsRepository.AddSlot(new AvailableSlot(
                 e.SlotId.ToString(),
                 e.DayId,
-                e.SlotStartTime.Date,
-                e.SlotStartTime,
+                e.SlotStartTime.Date.ToString("dd-MM-yyyy"),
+                e.SlotStartTime.ToString("h:mm tt"),
                 e.SlotDuration,
                 false
             )));
