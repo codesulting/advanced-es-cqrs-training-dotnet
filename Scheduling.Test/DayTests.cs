@@ -122,14 +122,14 @@ public class DayTests : AggregateTest<Day, EventStoreDayRepository>
     {
         var slotId = new SlotId(Guid.NewGuid());
         var reason = "Cancel Reason";
-        var expected = new SlotBookingCancelled(_dayId.Value, slotId.Value, reason);
+        var expected = new SlotBookingCancelled(_dayId.Value, slotId.Value, reason, "Unknown");
 
         Given(
             new DayScheduled(_dayId.Value, _doctorId.Value, _date),
             new SlotScheduled(slotId.Value, _dayId.Value, _date, TimeSpan.FromMinutes(10)),
             new SlotBooked(_dayId.Value, slotId.Value, "John Doe"));
 
-        await When(new CancelSlotBooking(_dayId.Value, slotId.Value, reason));
+        await When(new CancelSlotBooking(_dayId.Value, slotId.Value, reason, "Unknown"));
 
         Then(e =>
         {
@@ -147,7 +147,7 @@ public class DayTests : AggregateTest<Day, EventStoreDayRepository>
             new DayScheduled(_dayId.Value, _doctorId.Value, _date),
             new SlotScheduled(slotId.Value, _dayId.Value, _date, TimeSpan.FromMinutes(10)));
 
-        await When(new CancelSlotBooking(_dayId.Value, slotId.Value, "Some Reason"));
+        await When(new CancelSlotBooking(_dayId.Value, slotId.Value, "Some Reason", "Unknown"));
 
         Then<SlotNotBookedException>();
     }
@@ -212,7 +212,7 @@ public class DayTests : AggregateTest<Day, EventStoreDayRepository>
         var slotOneId = new SlotId(Guid.NewGuid());
         var slotTwoId = new SlotId(Guid.NewGuid());
 
-        var slotCancelledExpected = new SlotBookingCancelled(_dayId.Value, slotOneId.Value, null);
+        var slotCancelledExpected = new SlotBookingCancelled(_dayId.Value, slotOneId.Value, null, null);
         var slotOneScheduleCancelledExpected = new SlotScheduleCancelled(_dayId.Value, slotOneId.Value);
         var slotTwoScheduleCancelledExpected = new SlotScheduleCancelled(_dayId.Value, slotTwoId.Value);
         var dayCancelledExpected = new DayScheduleCancelled(_dayId.Value);

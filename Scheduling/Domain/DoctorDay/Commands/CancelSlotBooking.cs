@@ -6,5 +6,6 @@ namespace Scheduling.Domain.DoctorDay.Commands;
 public record CancelSlotBooking(
     string DayId,
     Guid SlotId,
-    string Reason
+    string Reason,
+    string RequestedBy
 ) : ICommand;

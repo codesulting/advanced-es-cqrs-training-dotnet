@@ -68,7 +68,7 @@ public class AvailableSlotsHandlerV2Test : HandlerTest
         await Given(
             scheduled,
             new SlotBooked("dayId", scheduled.SlotId, "PatientId"),
-            new SlotBookingCancelled("dayId", scheduled.SlotId, "Reason"));
+            new SlotBookingCancelled("dayId", scheduled.SlotId, "Reason", "Unknown"));
         Then(new List<AvailableSlot>
         {
             new AvailableSlot(

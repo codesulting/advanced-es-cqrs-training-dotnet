@@ -56,12 +56,14 @@ public static class EventMappings
             d => new SlotBookingCancelled(
                 d["dayId"]!.ToString(),
                 Guid.Parse(d["slotId"]!.ToString()),
-                d["reason"]!.ToString()
+                d["reason"]!.ToString(),
+                d["requestedBy"]!.ToString()
             ), o => new JObject
             {
                 ["dayId"] = o.DayId,
                 ["slotId"] = o.SlotId,
-                ["reason"] = o.Reason
+                ["reason"] = o.Reason,
+                ["requestedBy"] = o.Reason,
             });
 
         Map<SlotScheduleCancelled>($"{Prefix}-slot-schedule-cancelled",

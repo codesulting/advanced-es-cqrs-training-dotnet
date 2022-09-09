@@ -76,7 +76,7 @@ public class Day : AggregateRootSnapshot
         }
     }
 
-    public void CancelSlotBooking(Guid slotId, string reason)
+    public void CancelSlotBooking(Guid slotId, string reason, string requestedBy)
     {
         IsCancelledOrArchived();
         IsNotScheduled();
@@ -84,7 +84,7 @@ public class Day : AggregateRootSnapshot
         if (!_slots.HasBookedSlot(slotId))
             throw new SlotNotBookedException();
 
-        Raise(new SlotBookingCancelled(Id, slotId, reason));
+        Raise(new SlotBookingCancelled(Id, slotId, reason, requestedBy));
     }
 
     public void Archive()
@@ -104,7 +104,7 @@ public class Day : AggregateRootSnapshot
 
         foreach (var bookedSlot in _slots.GetBookedSlots())
         {
-            Raise(new SlotBookingCancelled(Id, bookedSlot.Id, null));
+            Raise(new SlotBookingCancelled(Id, bookedSlot.Id, null, null));
         }
 
         var events = _slots

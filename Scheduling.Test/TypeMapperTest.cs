@@ -28,7 +28,7 @@ public class TypeMapperTest
 
         Assert.NotNull(slotBookingCancelled);
         Assert.IsType<SlotBookingCancelled>(slotBookingCancelled);
-        Assert.Equal(new SlotBookingCancelled("dayId", slotId, "reason"), slotBookingCancelled);
+        Assert.Equal(new SlotBookingCancelled("dayId", slotId, "reason", "Unknown"), slotBookingCancelled);
     }
 
     [Fact]
@@ -52,6 +52,6 @@ public class TypeMapperTest
 
         Assert.NotNull(slotBookingCancelled);
         Assert.IsType<SlotBookingCancelled>(slotBookingCancelled);
-        Assert.Equal(new SlotBookingCancelled("dayId", slotId, "reason"), slotBookingCancelled);
+        Assert.Equal(new SlotBookingCancelled("dayId", slotId, "reason", "doctor"), slotBookingCancelled);
     }
 }

@@ -37,7 +37,7 @@ public class Handlers : CommandHandler
         Register<CancelSlotBooking>(async (c, m) =>
         {
             var day = await _repository.Get(new DayId(c.DayId));
-            day.CancelSlotBooking(c.SlotId, c.Reason);
+            day.CancelSlotBooking(c.SlotId, c.Reason, c.RequestedBy);
             await _repository.Save(day, m);
         });
 
