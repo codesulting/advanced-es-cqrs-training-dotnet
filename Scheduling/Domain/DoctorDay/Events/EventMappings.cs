@@ -63,7 +63,7 @@ public static class EventMappings
                 ["dayId"] = o.DayId,
                 ["slotId"] = o.SlotId,
                 ["reason"] = o.Reason,
-                ["requestedBy"] = o.Reason,
+                ["requestedBy"] = o.RequestedBy,
             });
 
         Map<SlotScheduleCancelled>($"{Prefix}-slot-schedule-cancelled",

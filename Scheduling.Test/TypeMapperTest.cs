@@ -21,6 +21,7 @@ public class TypeMapperTest
             ["dayId"] = "dayId",
             ["slotId"] = slotId.ToString(),
             ["reason"] = "reason",
+            ["requestedBy"] = "Unknown",
 
         };
 
