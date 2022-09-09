@@ -39,7 +39,7 @@ public class AvailableSlotsHandlerV2Test : HandlerTest
         var scheduled = new SlotScheduled(Guid.NewGuid(), "dayId", _now, _tenMinutes);
         await Given(scheduled);
         Then(
-            new AvailableSlot(
+            new AvailableSlot( 
                 scheduled.SlotId.ToString(),
                 scheduled.DayId,
                 scheduled.SlotStartTime.Date,
